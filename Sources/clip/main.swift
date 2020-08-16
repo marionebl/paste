@@ -21,14 +21,16 @@ extension Clip {
       CommandConfiguration(abstract: "List all clipboard contents")
 
     func run() {
-        (NSPasteboard.general.types ?? [])
+        Set(NSPasteboard.general.types ?? [])
           .forEach { 
             guard let dataType = toDataType(pasteType: $0) else { return }
             guard let data = NSPasteboard.general.string(forType: $0) else { return }
+            let len = dataType.rawValue.count
+            let delimiter = String(repeating: "-", count: len)
 
-            print("------")
+            print(delimiter)
             print(dataType)
-            print("------")
+            print(delimiter)
             print(data)
           }
     }
